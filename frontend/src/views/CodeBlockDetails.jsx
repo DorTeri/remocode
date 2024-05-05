@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { codeBlocks } from '../constants'
-
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+hljs.registerLanguage('javascript', javascript);
 
 const CodeBlockDetails = () => {
 
@@ -11,6 +13,7 @@ const CodeBlockDetails = () => {
     useEffect(() => {
         fetchCodeBlock()
     }, [params])
+
 
     const fetchCodeBlock = () => {
         const codeBlock = codeBlocks.find(code => code.id === params.id)
@@ -28,9 +31,13 @@ const CodeBlockDetails = () => {
     return (
         <section className='code-block-details'>
             <h2>{codeBlock.title}</h2>
-            <p>
-                {codeBlock.code}
-            </p>
+            <pre>
+                        <code
+                            dangerouslySetInnerHTML={{
+                                __html: hljs.highlight('javascript', codeBlock.code).value,
+                            }}
+                        />
+                    </pre>
         </section>
     )
 }
