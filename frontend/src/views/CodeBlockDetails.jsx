@@ -4,6 +4,7 @@ import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 import { useSelector } from 'react-redux';
 import io from 'socket.io-client';
+import { debounce } from '../utils/debounce';
 hljs.registerLanguage('javascript', javascript);
 
 const CodeBlockDetails = () => {
@@ -22,7 +23,7 @@ const CodeBlockDetails = () => {
 
         const socket = io('http://localhost:3030');
         setSocket(socket);
-        socket.on('connect',() => {
+        socket.on('connect', () => {
             console.log("connected")
         });
 
@@ -46,10 +47,11 @@ const CodeBlockDetails = () => {
     }, [id])
 
     const handleCodeChange = (event) => {
-        const updatedCode = event.target.innerText; 
+        const updatedCode = event.target.innerText;
 
         socket.emit('updateCodeBlock', { id, code: updatedCode });
     };
+    const debouncedHandleCodeChange = debounce(handleCodeChange, 500); // Adjust debounce delay as needed
 
 
     if (!codeBlock) {
@@ -66,7 +68,7 @@ const CodeBlockDetails = () => {
             <pre>
                 <code
                     contentEditable={role === 'student'}
-                    onBlur={handleCodeChange}
+                    onInput={debouncedHandleCodeChange}
                     dangerouslySetInnerHTML={{
                         __html: hljs.highlight('javascript', codeBlock.code).value,
                     }}
