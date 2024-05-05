@@ -16,6 +16,7 @@ const CodeBlockDetails = () => {
     const [isReadOnly, setIsReadOnly] = useState(true)
     const [role, setRole] = useState(null);
     const [socket, setSocket] = useState(null);
+    const [isCorrect, setIsCorrect] = useState(false)
 
     useEffect(() => {
         const codeBlock = codeBlocks.find(code => code._id === id)
@@ -49,10 +50,19 @@ const CodeBlockDetails = () => {
     const handleCodeChange = (event) => {
         const updatedCode = event.target.innerText;
 
+        // checkIsCodeCorrect()
+
         socket.emit('updateCodeBlock', { id, code: updatedCode });
     };
     const debouncedHandleCodeChange = debounce(handleCodeChange, 500); // Adjust debounce delay as needed
 
+    const checkIsCodeCorrect = () => {
+        if(codeBlock.code === codeBlock.solution) {
+            setIsCorrect(true)
+        } else {
+            setIsCorrect(false)
+        }
+    }
 
     if (!codeBlock) {
         return (
@@ -70,10 +80,17 @@ const CodeBlockDetails = () => {
                     contentEditable={role === 'student'}
                     onInput={debouncedHandleCodeChange}
                     dangerouslySetInnerHTML={{
-                        __html: hljs.highlight('javascript', codeBlock.code).value,
+                        __html: hljs.highlight(codeBlock.code, {language: 'javascript'}).value,
                     }}
                 />
             </pre>
+            <h3>
+                {isCorrect && (
+                    <div>
+                        Good job!
+                    </div>
+                )}
+            </h3>
         </section>
     )
 }

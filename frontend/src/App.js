@@ -6,6 +6,7 @@ import CodeBlockDetails from './views/CodeBlockDetails';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getAllCodeBlocks } from './store/actions/codeBlocks.actions';
+import CreateCodeBlock from './views/CreateCodeBlock';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <section className='main-content'>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/createCode" element={<CreateCodeBlock />} />
             <Route path="/codeDetails/:id" element={<CodeBlockDetails />} />
           </Routes>
         </section>
