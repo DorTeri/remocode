@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { codeBlocks } from '../constants'
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
+import { useSelector } from 'react-redux';
 hljs.registerLanguage('javascript', javascript);
 
 const CodeBlockDetails = () => {
 
     const params = useParams()
+    const codeBlocks = useSelector((storeState) => storeState.codeBlocksModule.codeBlocks)
+
     const [codeBlock, setCodeBlock] = useState(null)
 
     useEffect(() => {
-        const codeBlock = codeBlocks.find(code => code.id === params.id)
+        const codeBlock = codeBlocks.find(code => code._id === params.id)
         setCodeBlock(codeBlock)
     }, [params])
 
