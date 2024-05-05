@@ -1,24 +1,23 @@
-import logo from './logo.svg';
 import './assets/styles/styles.scss'
+import { Route, HashRouter as Router, Routes } from 'react-router-dom';
+import AppHeader from './cmps/AppHeader';
+import HomePage from './views/HomePage';
+import CodeBlockDetails from './views/CodeBlockDetails';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <section className='main-app main-layout'>
+        <AppHeader />
+        <section className='main-content'>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/codeDetails/:id" element={<CodeBlockDetails />} />
+          </Routes>
+        </section>
+      </section>
+    </Router>
   );
 }
 

@@ -9,3 +9,12 @@
 // Basics
 @import 'basics/base';
 @import 'basics/helpers';
+
+
+// Views
+@import 'views/HomePage';
+@import 'views/CodeBlockDetails';
+
+
+// cmps
+@import 'cmps/CodeBlockPreview';
