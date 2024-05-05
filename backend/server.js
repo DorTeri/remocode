@@ -10,6 +10,14 @@ const socketService = require('./services/socketService');
 
 const app = express()
 const http = require('http').createServer(app)
+
+const corsOptions = {
+    origin: ['http://127.0.0.1:5173', 'http://localhost:5173', 'http://127.0.0.1:3000', 'http://localhost:3000'],
+    credentials: true
+}
+
+app.use(cors(corsOptions))
+
 socketService.initializeSocket(http);
 const MONGO_URL = 'mongodb+srv://mister-toy:DOR1505te@mongo.rqczatz.mongodb.net/remocode_db?retryWrites=true&w=majority'
 
@@ -26,12 +34,6 @@ mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
 
-const corsOptions = {
-    origin: ['http://127.0.0.1:5173', 'http://localhost:5173', 'http://127.0.0.1:3000', 'http://localhost:3000', 'https://onestyleisrael.onrender.com'],
-    credentials: true
-}
-
-app.use(cors(corsOptions))
 app.use('/codeBlock', codeBlockRoutes);
 
 
