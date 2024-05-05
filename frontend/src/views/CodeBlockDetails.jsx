@@ -11,14 +11,10 @@ const CodeBlockDetails = () => {
     const [codeBlock, setCodeBlock] = useState(null)
 
     useEffect(() => {
-        fetchCodeBlock()
-    }, [params])
-
-
-    const fetchCodeBlock = () => {
         const codeBlock = codeBlocks.find(code => code.id === params.id)
         setCodeBlock(codeBlock)
-    }
+    }, [params])
+
 
     if (!codeBlock) {
         return (

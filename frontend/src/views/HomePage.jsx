@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CodeBlockPreview from '../cmps/CodeBlockPreview'
 import { codeBlocks } from '../constants'
+import { codeBlockService } from '../services/codeBlocks.service'
 
 const HomePage = () => {
+
+  const [codeBlocksFromBack, setCodeBlocksFromBack] = useState(null)
+
+  useEffect(() => {
+    fetchCodeBlocks()
+  }, [])
+
+  const fetchCodeBlocks = async () => {
+    const codeBlocks = await codeBlockService.getAllCodeBlocks()
+    setCodeBlocksFromBack(codeBlocks)
+  }
+
 
 
   return (
@@ -10,9 +23,14 @@ const HomePage = () => {
       <h2>Choose Code Block</h2>
       <div className='code-blocks-container'>
         {
-          codeBlocks.map(code => (
-            <CodeBlockPreview code={code} key={code.title}/>
-          ))
+          codeBlocksFromBack ? (
+            codeBlocksFromBack.map(code => (
+              <CodeBlockPreview code={code} key={code.title} />
+            ))) : (
+            codeBlocks.map(code => (
+              <CodeBlockPreview code={code} key={code.title} />
+            ))
+          )
         }
       </div>
     </section>
