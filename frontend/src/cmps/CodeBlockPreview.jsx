@@ -6,7 +6,7 @@ const CodeBlockPreview = ({ code }) => {
     const navigate = useNavigate()
 
     const handleCodeClicked = () => {
-        navigate(`/codeDetails/${code.id}`)
+        navigate(`/codeDetails/${code._id}`)
     }
 
     return (
