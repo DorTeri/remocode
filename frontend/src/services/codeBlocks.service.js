@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
     console.log('Running in development environment');
 }
 const API_URL = process.env.NODE_ENV === 'production' ? 'https://remocode-server.onrender.com/api' :
-    'http://localhost:3030'
+    'http://localhost:3030/api'
 
 async function getAllCodeBlocks() {
     try {
