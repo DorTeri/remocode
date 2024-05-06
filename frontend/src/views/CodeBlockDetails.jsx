@@ -36,12 +36,12 @@ const CodeBlockDetails = () => {
         }
 
         if (!codeBlock) return
-        socketService.emit('joinCodeBlock', id)
         checkIsCodeCorrect()
     }, [codeBlock, id])
 
     // Listening and removing listeners
     useEffect(() => {
+        socketService.emit('joinCodeBlock', id)
         socketService.on('role', handleSetRole)
         socketService.on('codeBlockUpdate', handleUpdateCodeBlock)
 
