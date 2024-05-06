@@ -41,9 +41,9 @@ app.use('/codeBlock', codeBlockRoutes);
 const logger = require('./services/logger.service')
 const port = process.env.PORT || 3030
 
-app.use('/', (req, res) => {
-    res.send(`Server is running ${port}`)
-})
+app.get('/api/vercel', (req, res) => {
+    res.status(200).send('Server is running on Vercel');
+});
 
 
 http.listen(port, () => {
