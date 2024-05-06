@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
 import { useSelector } from 'react-redux'
-import io from 'socket.io-client'
 import { socketService } from '../services/socket.service'
 hljs.registerLanguage('javascript', javascript);
 
@@ -16,7 +15,7 @@ const CodeBlockDetails = () => {
     const [role, setRole] = useState(null);
     const [isCodeCorrect, setIsCodeCorrect] = useState(false)
 
-    // Finds codeBlock from store
+    // Finds codeBlock from store based on the id from the params
     useEffect(() => {
         const codeBlock = codeBlocks.find(code => code._id === id)
         setCodeBlock(codeBlock)
@@ -31,43 +30,41 @@ const CodeBlockDetails = () => {
 
     // Listening and removing listeners
     useEffect(() => {
-        socketService.on('role', assignRole)
-        socketService.on('codeBlockUpdate', updateCodeBlock)
+        socketService.on('role', handleSetRole)
+        socketService.on('codeBlockUpdate', handleUpdateCodeBlock)
 
         return () => {
             socketService.emit('clearUsersBlock', id);
-            socketService.off('role', assignRole)
-            socketService.off('codeBlockUpdate', updateCodeBlock)
+            socketService.off('role', handleSetRole)
+            socketService.off('codeBlockUpdate', handleUpdateCodeBlock)
         };
     }, [])
 
 
-    const assignRole = (assignedRole) => {
-        setRole(assignedRole)
+    const handleSetRole = (role) => {
+        setRole(role)
     }
 
-    const updateCodeBlock = (updatedCodeBlock) => {
+    const handleUpdateCodeBlock = (updatedCodeBlock) => {
         setCodeBlock(updatedCodeBlock)
     }
 
     const handleCodeChange = (event) => {
         const updatedCode = event.target.innerText
 
-
         socketService.emit('updateCodeBlock', { id, code: updatedCode });
-
     };
 
 
     const checkIsCodeCorrect = () => {
         if (!codeBlock) return
+
+        // I decided to check without spaces so it will not fall on indentations
         const codeWithoutspace = codeBlock.code.replace(/\s/g, '');
         const solutionWithoutSpace = codeBlock.solution.replace(/\s/g, '');
-        if (codeWithoutspace === solutionWithoutSpace) {
-            setIsCodeCorrect(true)
-        } else {
-            setIsCodeCorrect(false)
-        }
+
+        // Handle correct or not
+        codeWithoutspace === solutionWithoutSpace ? setIsCodeCorrect(true) : setIsCodeCorrect(false)
     }
 
     if (!codeBlock) {

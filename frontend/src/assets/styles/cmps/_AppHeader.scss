@@ -32,7 +32,7 @@
             font-size: large;
 
             & > *.active {
-                color: rgb(8, 129, 243);
+                color: $secondColor;
             }
             
             & > *:hover {
