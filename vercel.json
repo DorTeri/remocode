@@ -3,20 +3,6 @@
       { "src": "frontend/package.json", "use": "@now/static-build" },
       { "src": "backend/package.json", "use": "@now/node" }
     ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/backend/$1",
-        "methods": ["GET", "POST", "PUT", "DELETE"]
-      },
-      {
-        "handle": "filesystem"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/frontend/$1"
-      }
-    ],
     "rewrites": [
       {
         "source": "/api/(.*)",
