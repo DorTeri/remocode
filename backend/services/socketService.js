@@ -15,6 +15,7 @@ const initializeSocket = (httpServer) => {
 
     io.on('connection', (socket) => {
 
+        // When a user joins a codeBlock
         socket.on('joinCodeBlock', (codeBlockId) => {
             loggerService.info('A user joinCodeBlock');
 
@@ -31,6 +32,7 @@ const initializeSocket = (httpServer) => {
             socket.emit('role', role);
         });
 
+        // Changing the codeBlock
         socket.on('updateCodeBlock', async ({ id, code }) => {
             try {
                 const updatedCodeBlock = await CodeBlock.findByIdAndUpdate(id, { code }, { new: true });
@@ -41,6 +43,7 @@ const initializeSocket = (httpServer) => {
             }
         });
 
+        // Clearing the users inside of the codeBlock
         socket.on('clearUsersBlock', async (codeBlockId) => {
             try {
                 if(!usersByCodeBlock[codeBlockId]) return
@@ -55,7 +58,6 @@ const initializeSocket = (httpServer) => {
 };
 
 
-// Emit an event to all connected clients
 const emitEventToClients = (eventName, data) => {
     io.emit(eventName, data);
 };

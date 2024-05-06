@@ -1,5 +1,6 @@
 
 export const SET_CODE_BLOCKS = 'SET_CODE_BLOCKS'
+export const ADD_CODE_BLOCK = 'ADD_CODE_BLOCK'
 
 
 const INITIAL_STATE = {
@@ -13,6 +14,12 @@ export function codeBlocksReducer(state = INITIAL_STATE, action = {}) {
             return {
                 ...state,
                 codeBlocks: action.payload
+            }
+
+        case ADD_CODE_BLOCK:
+            return {
+                ...state,
+                codeBlocks: [...state.codeBlocks, action.payload]
             }
 
         default:

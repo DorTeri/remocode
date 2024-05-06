@@ -1,15 +1,19 @@
 import React from 'react'
 import { useForm } from '../hooks/useForm'
+import { useDispatch } from 'react-redux'
+import { createCodeBlock } from '../store/actions/codeBlocks.actions'
 
 const CreateCodeBlock = () => {
+
+    const dispatch = useDispatch()
 
     const submit = (e) => {
         e.preventDefault()
         
-        console.log("codeBlock", codeBlock)
+        dispatch(createCodeBlock(codeBlock))
     }
 
-    const [codeBlock, handleChange, setCodeBlock] = useForm(
+    const [codeBlock, handleChange] = useForm(
         {
             title: '',
             code: '',
