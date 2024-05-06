@@ -14,16 +14,20 @@ To clone this repository to your local machine, use the following command:
 
 ```bash
 git clone https://github.com/DorTeri/remocode.git
-
+```
 Frontend Setup
 
 1. Navigate to the frontend folder:
+```bash
 cd frontend
+```
 
-2. Install dependencies:
+3. Install dependencies:
+```bash
 npm install
+```
 
-3. Start the development server:
+5. Start the development server:
 npm start
 
 This will start the React frontend on http://localhost:3000.
