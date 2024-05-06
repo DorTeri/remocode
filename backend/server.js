@@ -34,16 +34,12 @@ mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
 
-app.use('/codeBlock', codeBlockRoutes);
+app.use('/api/codeBlock', codeBlockRoutes);
 
 
 
 const logger = require('./services/logger.service')
 const port = process.env.PORT || 3030
-
-app.get('/api/vercel', (req, res) => {
-    res.status(200).send('Server is running on Vercel');
-});
 
 
 http.listen(port, () => {

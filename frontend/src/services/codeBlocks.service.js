@@ -5,7 +5,7 @@ export const codeBlockService = {
     createCodeBlock,
 }
 
-const API_URL = 'http://3.67.6.184:3030'
+const API_URL = 'http://localhost:3030/api'
 
 async function getAllCodeBlocks() {
     try {

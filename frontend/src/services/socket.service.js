@@ -6,7 +6,7 @@ export const socketService = {
     off,
 }
 
-const socket = io('http://3.67.6.184:3030');
+const socket = io('http://localhost:3030');
 socket.connect()
 
 
