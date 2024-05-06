@@ -2,11 +2,13 @@
 // Setup
 @import 'setup/typography.scss';
 @import 'setup/variables';
+@import 'setup/mixins';
 
 
 // Basics
 @import 'basics/base';
 @import 'basics/helpers';
+@import 'basics/layout';
 
 
 // Views
@@ -18,6 +20,8 @@
 // cmps
 @import 'cmps/CodeBlockPreview';
 @import 'cmps/AppHeader';
+@import 'cmps/NavBurger';
+@import 'cmps/SideNav';
 
 // highlight.js styles
 @import "highlight.js/styles/arta.css";

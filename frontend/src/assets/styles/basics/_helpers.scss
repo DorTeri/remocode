@@ -1,8 +1,19 @@
-.main-layout {
-    padding: 20px;
+.full {
+    grid-column: 1/-1;
 }
 
-.main-content {
+// Positioning
+.flex {
     display: flex;
-    justify-content: center;
+    &.column { flex-direction: column; }
+    &.justify-center { justify-content: center; }
+    &.align-center { align-items: center; }
+    &.wrap { flex-wrap: wrap; }
+    &.space-between { justify-content: space-between; }
+    &.space-around { justify-content: space-around; }
+    &.auto-center {
+        justify-content: center;
+        align-items: center;
+    }
+    > *.full-grow { flex: 1; }
 }

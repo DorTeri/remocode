@@ -3,7 +3,6 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 300px;
     margin: 20px;
     color: $secondColor;
 
@@ -12,5 +11,10 @@
     &:hover {
         cursor: pointer;
         transform: translateY(-5px);
+    }
+
+    @include for-mobile-layout {
+        font-size: small;
+        padding: 10px;
     }
 }

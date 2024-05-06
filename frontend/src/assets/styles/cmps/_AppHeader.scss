@@ -5,20 +5,30 @@
     .nav-content {
         display: flex;
         justify-content: space-between;
+        align-items: center;
 
         .nav-logo {
             display: flex;
             align-items: center;
             gap: 10px;
             text-decoration: none;
+            
 
             img {
                 width: 30px;
+
+                @include for-mobile-layout {
+                    width: 20px;
+                }
             }
 
             h3 {
                 font-weight: 500;
                 font-size: xx-large;
+
+                @include for-mobile-layout {
+                    font-size: large;
+                }
             }
 
             &:hover {
@@ -30,6 +40,11 @@
             display: flex;
             gap: 20px;
             font-size: large;
+
+
+            @include for-tablet-layout {
+                display: none;
+            }
 
             & > *.active {
                 color: $secondColor;

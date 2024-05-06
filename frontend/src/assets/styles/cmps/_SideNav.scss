@@ -1,0 +1,44 @@
+.side-nav {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 30%;
+    background-color: $secondColor;
+    color: $mainColor;
+    z-index: 10;
+    transition: 300ms;
+
+    position: fixed;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    right: -50%;
+    top: 0;
+    height: 200px;
+
+    @include for-tablet-layout {
+        display: flex;
+    }
+
+    &.open {
+        right: 0;
+    }
+
+    & > * {
+        padding-inline: 50px;
+        transition: 300ms linear;
+
+        &:hover {
+            cursor: pointer;
+            color: black;
+        }
+    }
+
+    .close-button {
+        position: absolute;
+        font-size: larger;
+        right: 10px;
+        top: 10px;
+        padding: 0;
+    }
+}

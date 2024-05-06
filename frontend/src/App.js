@@ -13,6 +13,7 @@ function App() {
   
   const dispatch = useDispatch()
 
+  // Fetching all codeBlocks and storing them in react redux store
   useEffect(() => {
     dispatch(getAllCodeBlocks())
   }, [dispatch])

@@ -16,8 +16,10 @@
         border: 2px solid $codeBorder;
         border-radius: 50px;
 
-        code {
-            white-space: pre;
+        @include for-mobile-layout {
+            font-size: medium;
+            padding: 1rem;
+            border-radius: 30px;
         }
 
 
