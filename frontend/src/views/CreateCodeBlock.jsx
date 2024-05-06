@@ -9,17 +9,28 @@ const CreateCodeBlock = () => {
 
     const submit = (e) => {
         e.preventDefault()
-        
+
         dispatch(createCodeBlock(codeBlock))
+        clearCodeBlock()
     }
 
-    const [codeBlock, handleChange] = useForm(
+    const [codeBlock, handleChange, setCodeBlock] = useForm(
         {
             title: '',
             code: '',
             solution: ''
         }
     )
+
+    const clearCodeBlock = () => {
+        setCodeBlock(
+            {
+                title: '',
+                code: '',
+                solution: ''
+            }
+        )
+    }
 
 
     const { title, code, solution } = codeBlock
@@ -40,7 +51,7 @@ const CreateCodeBlock = () => {
                 <label>Solution</label>
                 <textarea value={solution} onInput={handleChange} type="text" name="solution" placeholder='' />
 
-                <button type='submit'>Submit</button>
+                <button type='submit'>Create</button>
             </form>
         </section>
     )
