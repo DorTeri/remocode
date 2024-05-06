@@ -13,17 +13,18 @@ body {
   position: relative;
   margin: 0;
   min-height: 100vh;
+  background-color: $mainBgColor;
   color: $mainColor;
-  font-family: poppins-light;
+  font-family: poppins-medium;
 
   &.no-scroll {
     overflow: hidden;
   }
 }
 
-// img {
-//   max-width: 100%;
-// }
+img {
+  max-width: 100%;
+}
 
 h1,
 h2,

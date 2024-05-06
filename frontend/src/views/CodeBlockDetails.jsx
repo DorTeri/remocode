@@ -21,7 +21,7 @@ const CodeBlockDetails = () => {
     useEffect(() => {
         checkIsCodeCorrect()
     }, [codeBlock])
-    
+
 
     useEffect(() => {
         const codeBlock = codeBlocks.find(code => code._id === id)
@@ -59,11 +59,13 @@ const CodeBlockDetails = () => {
         socket.emit('updateCodeBlock', { id, code: updatedCode });
 
     };
-    const debouncedHandleCodeChange = debounce(handleCodeChange, 500); // Adjust debounce delay as needed
+
 
     const checkIsCodeCorrect = () => {
-        if(!codeBlock) return
-        if(codeBlock.code === codeBlock.solution) {
+        if (!codeBlock) return
+        const codeWithoutspace = codeBlock.code.replace(/\s/g, '');
+        const solutionWithoutSpace = codeBlock.solution.replace(/\s/g, '');
+        if (codeWithoutspace === solutionWithoutSpace) {
             setIsCorrect(true)
         } else {
             setIsCorrect(false)
@@ -81,22 +83,24 @@ const CodeBlockDetails = () => {
     return (
         <section className='code-block-details'>
             <h2>{codeBlock.title}</h2>
-            <pre>
-                <code
-                    contentEditable={role === 'student'}
-                    onInput={debouncedHandleCodeChange}
-                    dangerouslySetInnerHTML={{
-                        __html: hljs.highlight(codeBlock.code, {language: 'javascript'}).value,
-                    }}
-                />
-            </pre>
-            <h3>
-                {isCorrect && (
-                    <div>
-                        Good job!
+            <div className={`code-container ${isCorrect ? 'correct' : ''}`}>
+                <pre>
+                    <code
+                        contentEditable={role === 'student'}
+                        onBlur={handleCodeChange}
+                        dangerouslySetInnerHTML={{
+                            __html: hljs.highlight(codeBlock.code, { language: 'javascript' }).value,
+                        }}
+                    />
+                </pre>
+            </div>
+            {
+                isCorrect && (
+                    <div className='correct-container'>
+                        Good Job!
                     </div>
-                )}
-            </h3>
+                )
+            }
         </section>
     )
 }

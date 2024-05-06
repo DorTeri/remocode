@@ -26,6 +26,7 @@ const initializeSocket = (httpServer) => {
 
         socket.on('updateCodeBlock', async ({ id, code }) => {
             try {
+                loggerService.info("id", id)
                 const updatedCodeBlock = await CodeBlock.findByIdAndUpdate(id, { code }, { new: true });
                 
                 // Broadcast the updated code block to all connected clients
