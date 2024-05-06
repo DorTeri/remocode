@@ -10,29 +10,45 @@ const initializeSocket = (httpServer) => {
         cors: {
             origin: "http://localhost:3000",
             methods: ["GET", "POST"]
-          }
+        }
     });
 
     io.on('connection', (socket) => {
 
         socket.on('joinCodeBlock', (codeBlockId) => {
             loggerService.info('A user joinCodeBlock');
-    
-            // Check user role
-            const role = usersByCodeBlock[codeBlockId] ? 'mentor' : 'student';
-            
+
+            let role = 'student'
+
+            if (!usersByCodeBlock[codeBlockId] || !usersByCodeBlock[codeBlockId][0]) {
+                usersByCodeBlock[codeBlockId] = [socket.id]
+                role = 'mentor'
+            } else {
+                usersByCodeBlock[codeBlockId].push(socket.id)
+            }
+
+
             socket.emit('role', role);
         });
 
         socket.on('updateCodeBlock', async ({ id, code }) => {
             try {
-                loggerService.info("id", id)
                 const updatedCodeBlock = await CodeBlock.findByIdAndUpdate(id, { code }, { new: true });
-                
-                // Broadcast the updated code block to all connected clients
+
                 io.emit('codeBlockUpdate', updatedCodeBlock);
             } catch (error) {
                 loggerService.error('Error updating code block:', error);
+            }
+        });
+
+        socket.on('clearUsersBlock', async (codeBlockId) => {
+            try {
+                if(!usersByCodeBlock[codeBlockId]) return
+                usersByCodeBlock[codeBlockId] = usersByCodeBlock[codeBlockId].filter(socketId => 
+                    socketId !== socket.id
+                )
+            } catch (error) {
+                loggerService.error('Error diconnect code block:', error);
             }
         });
     });

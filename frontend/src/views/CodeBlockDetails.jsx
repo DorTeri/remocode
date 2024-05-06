@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import hljs from 'highlight.js/lib/core';
-import javascript from 'highlight.js/lib/languages/javascript';
-import { useSelector } from 'react-redux';
-import io from 'socket.io-client';
-import { debounce } from '../utils/debounce';
+import hljs from 'highlight.js/lib/core'
+import javascript from 'highlight.js/lib/languages/javascript'
+import { useSelector } from 'react-redux'
+import io from 'socket.io-client'
+import { socketService } from '../services/socket.service'
 hljs.registerLanguage('javascript', javascript);
 
 const CodeBlockDetails = () => {
@@ -13,50 +13,48 @@ const CodeBlockDetails = () => {
     const codeBlocks = useSelector((storeState) => storeState.codeBlocksModule.codeBlocks)
 
     const [codeBlock, setCodeBlock] = useState(null)
-    const [isReadOnly, setIsReadOnly] = useState(true)
     const [role, setRole] = useState(null);
-    const [socket, setSocket] = useState(null);
-    const [isCorrect, setIsCorrect] = useState(false)
+    const [isCodeCorrect, setIsCodeCorrect] = useState(false)
 
-    useEffect(() => {
-        checkIsCodeCorrect()
-    }, [codeBlock])
-
-
+    // Finds codeBlock from store
     useEffect(() => {
         const codeBlock = codeBlocks.find(code => code._id === id)
         setCodeBlock(codeBlock)
+    }, [id, codeBlocks]);
 
-        const socket = io('http://localhost:3030');
-        setSocket(socket);
-        socket.on('connect', () => {
-            console.log("connected")
-        });
+    // Checking if code is correct every change
+    useEffect(() => {
+        if (!codeBlock) return
+        socketService.emit('joinCodeBlock', id)
+        checkIsCodeCorrect()
+    }, [codeBlock, id])
 
-        const isFirstUser = true;
-        setIsReadOnly(isFirstUser);
-
-        socket.emit('joinCodeBlock', id);
-
-        // Listen for the role assigned by the server
-        socket.on('role', (assignedRole) => {
-            setRole(assignedRole);
-        });
-
-        socket.on('codeBlockUpdate', (updatedCodeBlock) => {
-            setCodeBlock(updatedCodeBlock);
-        });
+    // Listening and removing listeners
+    useEffect(() => {
+        socketService.on('role', assignRole)
+        socketService.on('codeBlockUpdate', updateCodeBlock)
 
         return () => {
-            socket.disconnect();
+            socketService.emit('clearUsersBlock', id);
+            socketService.off('role', assignRole)
+            socketService.off('codeBlockUpdate', updateCodeBlock)
         };
-    }, [id])
+    }, [])
+
+
+    const assignRole = (assignedRole) => {
+        setRole(assignedRole)
+    }
+
+    const updateCodeBlock = (updatedCodeBlock) => {
+        setCodeBlock(updatedCodeBlock)
+    }
 
     const handleCodeChange = (event) => {
-        const updatedCode = event.target.innerText;
+        const updatedCode = event.target.innerText
 
 
-        socket.emit('updateCodeBlock', { id, code: updatedCode });
+        socketService.emit('updateCodeBlock', { id, code: updatedCode });
 
     };
 
@@ -66,9 +64,9 @@ const CodeBlockDetails = () => {
         const codeWithoutspace = codeBlock.code.replace(/\s/g, '');
         const solutionWithoutSpace = codeBlock.solution.replace(/\s/g, '');
         if (codeWithoutspace === solutionWithoutSpace) {
-            setIsCorrect(true)
+            setIsCodeCorrect(true)
         } else {
-            setIsCorrect(false)
+            setIsCodeCorrect(false)
         }
     }
 
@@ -83,7 +81,7 @@ const CodeBlockDetails = () => {
     return (
         <section className='code-block-details'>
             <h2>{codeBlock.title}</h2>
-            <div className={`code-container ${isCorrect ? 'correct' : ''}`}>
+            <div className={`code-container ${isCodeCorrect ? 'correct' : ''}`}>
                 <pre>
                     <code
                         contentEditable={role === 'student'}
@@ -95,7 +93,7 @@ const CodeBlockDetails = () => {
                 </pre>
             </div>
             {
-                isCorrect && (
+                isCodeCorrect && (
                     <div className='correct-container'>
                         Good Job!
                     </div>

@@ -22,6 +22,7 @@ const CreateCodeBlock = () => {
 
     return (
         <section className='create-code-container'>
+            <h2>Create Code</h2>
             <form onSubmit={(e) => submit(e)}>
                 {/* Title */}
                 <label>Title</label>
@@ -29,11 +30,11 @@ const CreateCodeBlock = () => {
 
                 {/* Code */}
                 <label>Code</label>
-                <input value={code} onChange={handleChange} type="text" name="code" placeholder='' />
+                <textarea value={code} onInput={handleChange} type='text' name="code" placeholder='' />
 
                 {/* Solution */}
                 <label>Solution</label>
-                <input value={solution} onChange={handleChange} type="text" name="solution" placeholder='' />
+                <textarea value={solution} onInput={handleChange} type="text" name="solution" placeholder='' />
 
                 <button type='submit'>Submit</button>
             </form>

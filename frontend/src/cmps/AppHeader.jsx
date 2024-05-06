@@ -5,15 +5,14 @@ import { NavLink, useNavigate } from 'react-router-dom'
 
 const AppHeader = () => {
   
-  const navigate = useNavigate()
 
   return (
     <nav className='nav-container'>
       <div className='nav-content'>
-        <div className='nav-logo'>
+        <NavLink to={'/'} className='nav-logo'>
           <img src={vscode} />
           <h3>Remocode</h3>
-        </div>
+        </NavLink>
         <div className='nav-items'>
           {
             navItems.map(item => (
