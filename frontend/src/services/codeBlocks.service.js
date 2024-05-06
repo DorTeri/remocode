@@ -4,19 +4,14 @@ export const codeBlockService = {
     getAllCodeBlocks,
     createCodeBlock,
 }
-if (process.env.NODE_ENV === 'production') {
-    console.log('Running in production environment');
-} else {
-    console.log('Running in development environment');
-}
+
+// Choose URL
 const API_URL = process.env.NODE_ENV === 'production' ? 'https://remocode-server.onrender.com/api' :
     'http://localhost:3030/api'
 
 async function getAllCodeBlocks() {
     try {
         const res = await axios.get(`${API_URL}/codeBlock`)
-        console.log("res", res)
-        console.log("data", res.data)
         return res.data
     } catch (error) {
         console.log("Error in getAllCodeBlocks service", error)

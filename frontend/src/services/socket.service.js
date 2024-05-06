@@ -8,6 +8,7 @@ export const socketService = {
 
 const socket = process.env.NODE_ENV === 'production' ? io('https://remocode-server.onrender.com') :
     io('http://localhost:3030')
+    
 socket.connect()
 
 

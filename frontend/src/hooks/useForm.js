@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+// This is a custom hook I've created before with an option
+// for error handeling for specific fields
+
 export function useForm(initialFields, cb = () => { }, validate = () => ({})) {
     const [fields, setFields] = useState(initialFields)
     const [errors, setErrors] = useState({});

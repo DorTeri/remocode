@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import vscode from '../assets/images/vscode.png'
 import { navItems } from '../constants'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import NavBurger from './NavBurger'
 import SideNav from './SideNav'
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from '../hooks/useForm'
 import { useDispatch } from 'react-redux'
 import { createCodeBlock } from '../store/actions/codeBlocks.actions'
@@ -6,10 +6,16 @@ import { createCodeBlock } from '../store/actions/codeBlocks.actions'
 const CreateCodeBlock = () => {
 
     const dispatch = useDispatch()
+    const [error, setError] = useState('')
 
     const submit = (e) => {
         e.preventDefault()
-
+        if(!codeBlock.title || !codeBlock.code || !codeBlock.solution) {
+            setError('Missing requiried fields!')
+            return
+        } else {
+            setError('')
+        }
         dispatch(createCodeBlock(codeBlock))
         clearCodeBlock()
     }
@@ -53,6 +59,15 @@ const CreateCodeBlock = () => {
                 <textarea value={solution} onInput={handleChange} type="text" name="solution" placeholder='' />
 
                 <button type='submit'>Create</button>
+
+                {/* Simple error indication if there are missing fields */}
+                {
+                    error && (
+                        <p className='error'>
+                            {error}
+                        </p>
+                    )
+                }
             </form>
         </section>
     )

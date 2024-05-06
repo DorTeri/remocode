@@ -1,24 +1,25 @@
 const express = require('express')
 const cors = require('cors')
-const path = require('path')
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const codeBlockRoutes = require('./routes/codeBlock.routes');
 const socketService = require('./services/socketService');
-
+const logger = require('./services/logger.service')
 
 const app = express()
 const http = require('http').createServer(app)
 
+// Adding cors
 const corsOptions = {
     origin: ['http://127.0.0.1:5173', 'http://localhost:5173', 'http://127.0.0.1:3000', 'http://localhost:3000', 'https://remocode.onrender.com'],
     credentials: true
 }
-
 app.use(cors(corsOptions))
 
+// Initializing socket
 socketService.initializeSocket(http);
+
 const MONGO_URL = 'mongodb+srv://mister-toy:DOR1505te@mongo.rqczatz.mongodb.net/remocode_db?retryWrites=true&w=majority'
 
 
@@ -38,7 +39,6 @@ app.use('/api/codeBlock', codeBlockRoutes);
 
 
 
-const logger = require('./services/logger.service')
 const port = process.env.PORT || 3030
 
 
