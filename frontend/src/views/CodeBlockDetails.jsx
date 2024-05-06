@@ -4,6 +4,7 @@ import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
 import { useSelector } from 'react-redux'
 import { socketService } from '../services/socket.service'
+import RolePreview from '../cmps/RolePreview'
 hljs.registerLanguage('javascript', javascript);
 
 const CodeBlockDetails = () => {
@@ -14,17 +15,7 @@ const CodeBlockDetails = () => {
     const [codeBlock, setCodeBlock] = useState(null)
     const [role, setRole] = useState(null);
     const [isCodeCorrect, setIsCodeCorrect] = useState(false)
-    const [isMounted, setIsMounted] = useState(false);
 
-    // Found this usefull to make sure that a reload of the 
-    // details page won't invoke another listener
-    useEffect(() => {
-        
-        setIsMounted(true);
-        return () => {
-            setIsMounted(false);
-        };
-    }, []);
 
     // Finds codeBlock from store based on the id from the params
     useEffect(() => {
@@ -52,7 +43,6 @@ const CodeBlockDetails = () => {
 
     // Listening and removing listeners
     useEffect(() => {
-        if (!isMounted) return;
         socketService.emit('joinCodeBlock', id)
         socketService.on('role', handleSetRole)
         socketService.on('codeBlockUpdate', handleUpdateCodeBlock)
@@ -62,7 +52,7 @@ const CodeBlockDetails = () => {
             socketService.off('role', handleSetRole)
             socketService.off('codeBlockUpdate', handleUpdateCodeBlock)
         };
-    }, [id])
+    }, [id, codeBlocks])
 
 
     const handleSetRole = (role) => {
@@ -91,6 +81,7 @@ const CodeBlockDetails = () => {
     return (
         <section className='code-block-details'>
             <h2>{codeBlock.title}</h2>
+            <RolePreview role={role}/>
             <div className={`code-container ${isCodeCorrect ? 'correct' : ''}`}>
                 <pre>
                     <code
