@@ -1,6 +1,7 @@
 # Remocode
 
 This is a project with a React frontend and a Node.js backend.
+For Live Demo visit: [here](https://remocode.onrender.com/#/).
 
 ## Prerequisites
 
@@ -22,26 +23,34 @@ Frontend Setup
 cd frontend
 ```
 
-3. Install dependencies:
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-5. Start the development server:
+3. Start the development server:
+```bash
 npm start
+```
 
 This will start the React frontend on http://localhost:3000.
 
 Backend Setup
 
 1. Navigate to the backend folder:
+```bash
 cd backend
+```
 
 2. Install dependencies:
+```bash
 npm install
+```
 
 3. Start the development server:
+```bash
 npm start
+```
 
 This will start the Node.js backend on http://localhost:3030.
 
