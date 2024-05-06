@@ -13,7 +13,7 @@ const AppHeader = () => {
     <nav className='nav-container'>
       <div className='nav-content'>
         <NavLink to={'/'} className='nav-logo'>
-          <img src={vscode} />
+          <img alt='logo' src={vscode} />
           <h3>Remocode</h3>
         </NavLink>
 

@@ -19,6 +19,8 @@ export function useForm(initialFields, cb = () => { }, validate = () => ({})) {
                 break;
             case 'radio':
                 value = target.checked
+                break;
+                
             default:
                 break;
         }
