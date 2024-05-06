@@ -23,6 +23,18 @@ const CodeBlockDetails = () => {
 
     // Checking if code is correct every change
     useEffect(() => {
+
+        const checkIsCodeCorrect = () => {
+            if (!codeBlock) return
+    
+            // I decided to check without spaces so it will not fall on indentations
+            const codeWithoutspace = codeBlock.code.replace(/\s/g, '');
+            const solutionWithoutSpace = codeBlock.solution.replace(/\s/g, '');
+    
+            // Handle correct or not
+            codeWithoutspace === solutionWithoutSpace ? setIsCodeCorrect(true) : setIsCodeCorrect(false)
+        }
+
         if (!codeBlock) return
         socketService.emit('joinCodeBlock', id)
         checkIsCodeCorrect()
@@ -38,7 +50,7 @@ const CodeBlockDetails = () => {
             socketService.off('role', handleSetRole)
             socketService.off('codeBlockUpdate', handleUpdateCodeBlock)
         };
-    }, [])
+    }, [id])
 
 
     const handleSetRole = (role) => {
@@ -55,17 +67,6 @@ const CodeBlockDetails = () => {
         socketService.emit('updateCodeBlock', { id, code: updatedCode });
     };
 
-
-    const checkIsCodeCorrect = () => {
-        if (!codeBlock) return
-
-        // I decided to check without spaces so it will not fall on indentations
-        const codeWithoutspace = codeBlock.code.replace(/\s/g, '');
-        const solutionWithoutSpace = codeBlock.solution.replace(/\s/g, '');
-
-        // Handle correct or not
-        codeWithoutspace === solutionWithoutSpace ? setIsCodeCorrect(true) : setIsCodeCorrect(false)
-    }
 
     if (!codeBlock) {
         return (
