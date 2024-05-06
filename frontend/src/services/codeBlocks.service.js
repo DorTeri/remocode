@@ -5,7 +5,7 @@ export const codeBlockService = {
     createCodeBlock,
 }
 
-const API_URL = 'https://remocode-server.onrender.com'
+const API_URL = 'https://remocode-server.onrender.com/api'
 
 async function getAllCodeBlocks() {
     try {
