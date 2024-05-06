@@ -36,6 +36,10 @@ mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use('/codeBlock', codeBlockRoutes);
 
+app.use('/', (req, res) => {
+    res.send("Server is running")
+})
+
 
 const logger = require('./services/logger.service')
 const port = process.env.PORT || 3030
