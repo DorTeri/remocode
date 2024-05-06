@@ -4,8 +4,13 @@ export const codeBlockService = {
     getAllCodeBlocks,
     createCodeBlock,
 }
-
-const API_URL = 'https://remocode-server.onrender.com/api'
+if (process.env.NODE_ENV === 'production') {
+    console.log('Running in production environment');
+} else {
+    console.log('Running in development environment');
+}
+const API_URL = process.env.NODE_ENV === 'production' ? 'https://remocode-server.onrender.com/api' :
+    'http://localhost:3030'
 
 async function getAllCodeBlocks() {
     try {
