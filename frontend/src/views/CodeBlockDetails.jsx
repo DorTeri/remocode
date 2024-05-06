@@ -19,6 +19,11 @@ const CodeBlockDetails = () => {
     const [isCorrect, setIsCorrect] = useState(false)
 
     useEffect(() => {
+        checkIsCodeCorrect()
+    }, [codeBlock])
+    
+
+    useEffect(() => {
         const codeBlock = codeBlocks.find(code => code._id === id)
         setCodeBlock(codeBlock)
 
@@ -50,13 +55,14 @@ const CodeBlockDetails = () => {
     const handleCodeChange = (event) => {
         const updatedCode = event.target.innerText;
 
-        // checkIsCodeCorrect()
 
         socket.emit('updateCodeBlock', { id, code: updatedCode });
+
     };
     const debouncedHandleCodeChange = debounce(handleCodeChange, 500); // Adjust debounce delay as needed
 
     const checkIsCodeCorrect = () => {
+        if(!codeBlock) return
         if(codeBlock.code === codeBlock.solution) {
             setIsCorrect(true)
         } else {

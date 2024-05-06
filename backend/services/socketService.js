@@ -14,29 +14,18 @@ const initializeSocket = (httpServer) => {
     });
 
     io.on('connection', (socket) => {
-        console.log('A user connected');
-        loggerService.info('A user connected');
-
-        // Example: Send a message to the client when a new connection is established
-        socket.emit('message', 'Welcome to the server!');
-
 
         socket.on('joinCodeBlock', (codeBlockId) => {
             loggerService.info('A user joinCodeBlock');
-            // Increment the user count for the code block
-            usersByCodeBlock[codeBlockId] = (usersByCodeBlock[codeBlockId] || 0) + 1;
     
-            // Determine the role of the user based on the user count
-            const role = usersByCodeBlock[codeBlockId] === 1 ? 'mentor' : 'student';
+            // Check user role
+            const role = usersByCodeBlock[codeBlockId] ? 'mentor' : 'student';
             
-            // Emit the role to the client
             socket.emit('role', role);
         });
 
-        // Handle code block update event
         socket.on('updateCodeBlock', async ({ id, code }) => {
             try {
-                // Update code block in the database
                 const updatedCodeBlock = await CodeBlock.findByIdAndUpdate(id, { code }, { new: true });
                 
                 // Broadcast the updated code block to all connected clients
