@@ -6,7 +6,7 @@ export const socketService = {
     off,
 }
 
-const socket = io('http://localhost:3030');
+const socket = io('https://remocode-server.onrender.com');
 socket.connect()
 
 

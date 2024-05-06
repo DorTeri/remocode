@@ -8,7 +8,7 @@ const usersByCodeBlock = {};
 const initializeSocket = (httpServer) => {
     io = socketIo(httpServer, {
         cors: {
-            origin: "http://localhost:3000",
+            origin: ["http://localhost:3000", "https://remocode.onrender.com"],
             methods: ["GET", "POST"]
         }
     });
