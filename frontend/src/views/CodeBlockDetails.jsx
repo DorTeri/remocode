@@ -14,6 +14,17 @@ const CodeBlockDetails = () => {
     const [codeBlock, setCodeBlock] = useState(null)
     const [role, setRole] = useState(null);
     const [isCodeCorrect, setIsCodeCorrect] = useState(false)
+    const [isMounted, setIsMounted] = useState(false);
+
+    // Found this usefull to make sure that a reload of the 
+    // details page won't invoke another listener
+    useEffect(() => {
+        
+        setIsMounted(true);
+        return () => {
+            setIsMounted(false);
+        };
+    }, []);
 
     // Finds codeBlock from store based on the id from the params
     useEffect(() => {
@@ -41,6 +52,7 @@ const CodeBlockDetails = () => {
 
     // Listening and removing listeners
     useEffect(() => {
+        if (!isMounted) return;
         socketService.emit('joinCodeBlock', id)
         socketService.on('role', handleSetRole)
         socketService.on('codeBlockUpdate', handleUpdateCodeBlock)
